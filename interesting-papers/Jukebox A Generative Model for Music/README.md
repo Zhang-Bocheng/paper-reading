@@ -1,4 +1,4 @@
-# Do ImageNet Classifiers Generalize to ImageNet?
+# Jukebox: A Generative Model for Music
 [paper link](https://arxiv.org/pdf/2005.00341.pdf)
 | Year | Introduction                                                         | Research Field                 |
 | ---- | ------------------------------------------------------------ | -------------------- |
