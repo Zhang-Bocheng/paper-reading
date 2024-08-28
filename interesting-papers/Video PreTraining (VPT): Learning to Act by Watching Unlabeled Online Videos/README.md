@@ -2,65 +2,64 @@
 [paper link](https://arxiv.org/pdf/2206.11795) 
 | Year | Introduction                                                         | Research Field                 |
 | ---- | ------------------------------------------------------------ | -------------------- |
-| 2022 | This paper introduces a new challenge, Video Task Decathlon (VTD), which aims to explore the problem of building a unified model to solve multiple heterogeneous visual tasks in autonomous driving.         |  Computer Vision         |
+| 2022 | This paper describes a new approach called Video PreTraining (VPT), which allows robots to learn behavioural prior knowledge by watching unlabelled online videos through semi-supervised imitation learning.          |  Semi-supervised  Learning       |
 
 ## Methodology
 
 ### 1. Abstract
-The authors designed the VTDNet network architecture and used a training scheme called Curriculum training, Pseudo-labeling, and Fine-tuning (CPF) to successfully train the VTDNet and achieve significant performance improvements. This research provides a promising new direction for exploring the unification of perceptual tasks in autonomous driving.
-![image](https://github.com/user-attachments/assets/a75c4494-ae97-4f25-9510-f75d6e4ff7f6)
+This approach extends techniques for pre-training on large-scale Internet datasets, allowing robots to learn broad and general abilities without labelling. The authors used videos from the Minecraft game as source data and trained an inverse dynamics model with a small amount of labelled data, thus annotating a large amount of unlabelled data, and then trained a generalised behavioural prior model using this labelled data. Experimental results show that this behavioural a priori model has non-trivial zero-sample capabilities and can be further fine-tuned for difficult tasks through imitation learning and reinforcement learning.
 
 ### 2. Method Description 
-This paper proposes a new video task challenge, Video Task Decathlon (VTD), which aims to study diverse 2D video tasks in the field of autonomous driving and to design models that can handle all 2D tasks. VTD contains ten tasks: image labelling, object detection, attitude estimation, drivable region segmentation, lane detection, semantic segmentation, instance segmentation, optical flow estimation, and multiple object tracking (MOT) and multiple object segmentation (MOTS). These tasks represent the spatial scope in the field of autonomous driving. 
+This paper proposes a method called Video Policy Transfer (VPT) for transferring behavioural policies from a video game to a new environment. The method consists of three main steps: training an inverse dynamics model, data filtering, and base model training.
 
-The challenge is constructed based on the large real-world BDD100K video dataset, which contains annotations for a variety of vision tasks.The BDD100K consists of 100,000 driving video sequences, each approximately 40 seconds long. Tracking tasks are annotated at 5 frames/second. These tasks were annotated in three separate image sets, all of which were subsets of the original 100,000 videos. However, only a portion of the tasks in each image set were labelled. This complicates the optimisation because different tasks have different data scales and each image is only partially annotated.
-![image](https://github.com/user-attachments/assets/a5f2932b-3a21-4d19-8ab3-3b3c2451b3c1)
+First, **the inverse dynamics model (IDM)** is trained by collecting a small amount of labelled data to minimise the negative log-likelihood of the action prediction probability given a sequence of observations. Unlike imitation learning strategies, the IDM can be non-causal, i.e., its action predictions can be a function of past and future events. Experiments show that IDM is easier to learn and more efficient than an imitation learning objective based only on past frames.
+
+Second, a large number of gameplay videos are obtained by searching the web for relevant keywords and **filtering** them to retain only clean data, i.e., gameplay clips that do not contain visual noise and are from survival mode. For the unclean data, a filter is trained using a small sample of images labelled as clean or unclean to filter out unclean video segments.
+
+Finally, **using standard imitation learning methods**, a base model is trained on the clean data that exhibits non-trivial behaviour in a non-zero sample setting and can be fine-tuned by imitation learning and reinforcement learning to perform more complex skills.
+
+![image](https://github.com/user-attachments/assets/0396cd67-fc5a-4e99-a1d4-d599eb45ba03)
 
 ### 3. Methodological improvements
-The VTD challenge presented in this paper aims to facilitate research in multi-task learning by evaluating the performance of different models through the combination of multiple tasks. Compared with the traditional single-task challenge, the VTD provides a more comprehensive test environment that can better simulate autonomous driving applications in real scenarios. In addition, this paper proposes a proxy evaluation method for the optical flow estimation task so that the task can be evaluated without optical flow labelling.
+  1. The use of an inverse dynamics model for training can better capture the dynamics of the environment, thus improving the generalisation ability of the model.
+  
+  2. The data filtering process can effectively remove unnecessary visual noise and game mode differences, making the training data cleaner and more accurate.
+  
+  3. The base model is trained using standard imitation learning methods with both non-zero sample capability and scalability for complex skills.
 
 ### 4. Issues addressed 
-The VTD challenge proposed in this paper addresses the research problem of multi-task learning in the field of autonomous driving. While traditional single-task challenges cannot fully reflect the reality of autonomous driving applications, VTD provides a more comprehensive test environment to better evaluate the performance of different models on multiple tasks. In addition, this paper proposes a proxy evaluation method for the optical flow estimation task so that the task can be evaluated without optical flow labelling. These improvements can help to advance the development of autonomous driving technologies and improve their reliability.
+The method proposed in this paper addresses the problem of behavioural policy transfer in video games, enabling adaptive behavioural control in different game environments. In addition, the method improves the generalisation ability and data efficiency of the model, making it suitable for larger datasets and more complex tasks.
 
 ## Experiments
-This paper presents a study of a multi-task learning method for Video Task Dataset (VTD) with multiple labels, and conducts several comparison experiments to verify the effectiveness of the method. The following are the specific comparison experiments:
+This paper focuses on the authors' use of artificial intelligence techniques to simulate human behaviour in Minrcraft, and validates the effectiveness of the approach through comparative experiments. Specifically, the authors conducted the following three comparison experiments:
 
-  1. **Comparing single-task and multi-task baselines**: two baseline models were used, one single-task model and the other multi-task model. By comparing the performance of these models on VTD, it can be concluded that training all tasks jointly is better than training each task individually, but a special training strategy is required to overcome the optimisation challenges and achieve better performance.
+The first experiment verifies that an IDM model trained using contract labour data performs better at collecting and crafting game items than a BC base model trained directly from the same dataset. The authors used a method called ‘VPT’, where the IDM model was used to predict the behaviour of contract workers, and then these behaviours were used to train the BC base model. The results showed that the BC base model trained with the IDM model was better at collecting and producing game items, demonstrating the effectiveness of the IDM approach.
 
-![image](https://github.com/user-attachments/assets/d70c94d0-2caf-4fa2-bd10-b1986f699acc)
+![image](https://github.com/user-attachments/assets/bddac5d8-8706-4af6-9068-f87bcfa49784)
 
-  2. **Comparing different baseline models**: the authors used two different baseline models, based on ResNet-50 and Swin Transformer. The results show that Swin Transformer performs better in both the models and hence it is recommended to use Swin Transformer as the base network.
+The second experiment builds on the IDM and BC base models and further investigates how the BC algorithm can be used to fine-tune the base model to improve its performance. The authors used two different datasets (‘earlygame_keyword’ and ‘contractor_house’) to fine-tune the base model and compared the effects of different fine-tuning strategies. The results show that the performance of the fine-tuned model is significantly improved, especially in the production of higher-level game items.
 
-  3. **Comparison with other multitasking models**: the authors also compared with other multitasking models, including Mask2Former and others. The results show that while some models perform well on some tasks, they perform poorly on others due to issues such as task interference and under-labelling.
+![image](https://github.com/user-attachments/assets/d77b0b52-7091-4304-81d4-19f548df829f)
 
-![image](https://github.com/user-attachments/assets/c3b8df09-60ec-4f99-9695-a98e52a22075)
+The third experiment verified the effect of IDM quality on BC performance. The authors trained the IDM using varying amounts of data and used it to label a smaller dataset. They then used the BC models trained with each IDM to evaluate game statistics. The results show that it takes at least 10 hours of data to get the IDM to a certain quality level, and that the quality of the IDM has a significant impact on the performance of the BC model.
 
-  4. **Analysis of model components**: the authors conducted several experiments to evaluate the impact of different components on model performance, including feature interaction blocks, training protocols, etc. The results show that adding feature interaction blocks significantly improves the performance of segmentation and localisation tasks, while using more complex training protocols can further improve performance.
-
-  5. Loss weights and evaluation metrics: the authors also investigate the performance variation of the model under different loss weight configurations and propose adjustable task loss weights to meet the needs of different application scenarios. In addition, they use a custom multi-task evaluation metric, VTDA, to measure the overall performance of the model.
-
-![image](https://github.com/user-attachments/assets/4f7f9dc3-66bc-46fa-9112-c133f5f4130a)
+ ![image](https://github.com/user-attachments/assets/f16083f5-0611-4b8c-a036-ae66cdc5d28e)
 
 ## Conclusion
 
 ### 1. Advantages of the Thesis
-  1. A new Video Task Decathlon (VTB) challenge is proposed to promote multi-task learning in the field of autonomous driving.
-
-  2. Several representative image and video tasks are designed and the efficiency of the single-task model is enhanced by exploring the performance difference between the single-task model and the multi-task model.
+  1. The paper proposes a new semi-supervised imitation learning method, Video PreTraining (VPT), which trains a behavioural prior model by exploiting the large amount of unlabelled video data available on the Internet and applies it to reinforcement learning to solve hard-to-explore problems.
   
-  3. A new multi-task model, VTDNet, combining feature interaction blocks and our CPF training protocol is proposed to significantly improve the performance of the single-task model.
+  2. The authors' experimental results in the Minecraft game show that this approach can effectively improve the learning ability of an intelligent body, enabling it to perform some tasks that were previously impossible.
+  
+  3. In addition, the paper also proposes some improved methods, such as predicting action labels using inverse dynamics models and generating pseudo-labels using a small amount of labelled data, all of which provide researchers with more ideas and tools.
 
 ### 2. Innovative points
-  1. The concept of multi-task learning is introduced to improve the learning of a single task by sharing the underlying feature extractor.
+  1. The main contribution of the paper is to propose a new semi-supervised imitation learning method which can train a behavioural prior model on large-scale unlabelled video data and apply it to reinforcement learning.
   
-  2. A VGG network was utilised as a feature extractor to be used in multi-task learning.
-  
-  3. Combined the feature interaction block and CPF training protocol to further improve the effectiveness of multi-task learning.
+  2. In addition, the paper proposes some improved methods, such as predicting action labels using an inverse dynamics model and generating pseudo-labels using a small amount of labelled data, which can help to improve the learning effect.
 
 ### 3. Future Works
-  1. The method can be applied to other domains such as NLP.
-  
-  2. The model structure can be further optimised to make it more efficient and accurate.
-  
-  3. More advanced deep learning techniques, such as the self-attention mechanism, can be tried to further improve the effect of multi-task learning.  
+Future research can further explore how to combine VPT with other techniques to improve learning efficiency and generalisation performance. At the same time, consideration could be given to how to cope with the possible negative effects of VPT methods, such as imitation of undesirable behaviours.  
+
 
