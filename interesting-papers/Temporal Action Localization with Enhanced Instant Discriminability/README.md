@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/74497ce5-dc1e-4e18-bb23-e4c382c021fc)# Temporal Action Localization with Enhanced Instant Discriminability
+# Temporal Action Localization with Enhanced Instant Discriminability
 [paper link](https://arxiv.org/pdf/2309.05590) 
 | Year | Introduction                                                         | Research Field                 |
 | ---- | ------------------------------------------------------------ | -------------------- |
