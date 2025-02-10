@@ -1,4 +1,4 @@
-# Empower Sequence Labeling with Task-Aware Neural Language Model
+# Large Language Models and Games: A Survey and Roadmap
 [paper link](https://arxiv.org/pdf/2402.18659) 
 | Year | Introduction                                                         | Research Field                 |
 | ---- | ------------------------------------------------------------ | -------------------- |
