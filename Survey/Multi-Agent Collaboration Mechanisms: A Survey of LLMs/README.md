@@ -1,4 +1,4 @@
-# Empower Sequence Labeling with Task-Aware Neural Language Model
+# Multi-Agent Collaboration Mechanisms: A Survey of LLMs
 [paper link](https://arxiv.org/pdf/2501.06322) 
 | Year | Introduction                                                         | Research Field                 |
 | ---- | ------------------------------------------------------------ | -------------------- |
